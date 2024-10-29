@@ -6,11 +6,19 @@ import Swal from "sweetalert2"
 import PaginationComponent from "../../components/common/table/pagination.component"
 import ActionButton from "../../components/common/table/action-button.component"
 import { LoadingComponent } from "../../components/common"
+import { useDispatch, useSelector } from "react-redux"
+import { helloWorld } from "../../reducer/banner.reducer"
 
 const Per_Page_limit = 15
 const AdminBanner = (): ReactNode => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
+    //used to dispatch| trigger the action
+    const dispatch = useDispatch();
+    //used to listen the redux
+    const bannerData = useSelector((state: any) => {
+        return state.banner.listAll
+    })
     const [pagination, setPagination] = useState({
 
         totalPages: 1,
@@ -35,7 +43,8 @@ const AdminBanner = (): ReactNode => {
                 totalPages: totalPages,
                 currentPage: response.meta.page
             })
-            setData(response.result)
+            dispatch(helloWorld(response.result))
+            // setData(response.result)
         } catch (exception: any) {
             //handle the exception
             toast.error("Error Fetching the Banner")
@@ -45,6 +54,7 @@ const AdminBanner = (): ReactNode => {
 
     }
     useEffect(() => {
+        
         //Api Call to get the data from the backend
         getBannerList({ page: 1, limit: Per_Page_limit })
     }, [])
@@ -98,7 +108,7 @@ const AdminBanner = (): ReactNode => {
                                 {
                                     loading ? <><LoadingComponent /></> : <>
                                         {
-                                            data && data.map((banner: any, index: number) => (
+                                            bannerData &&  bannerData.map((banner: any, index: number) => (
                                                 <tr className="odd:bg-gray-50" key={index}>
                                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{banner.title}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{banner.image}</td>

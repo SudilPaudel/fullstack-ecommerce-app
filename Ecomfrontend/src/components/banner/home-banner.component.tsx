@@ -11,6 +11,7 @@ import banner5 from "../../assets/5.jpg"
 import banner6 from "../../assets/6.jpg"
 import banner7 from "../../assets/7.jpg"
 import banner8 from "../../assets/8.jpg"
+import { useSelector } from "react-redux";
 
 const HomeBannerComponent = () => {
     var settings = {
@@ -22,6 +23,9 @@ const HomeBannerComponent = () => {
         slidesToScroll: 1,
         arrows: true
     };
+    const bannerData = useSelector((state: any) => {
+        return state.banner.listAll
+    })
     return (
         <>
         <div className="bg-white">

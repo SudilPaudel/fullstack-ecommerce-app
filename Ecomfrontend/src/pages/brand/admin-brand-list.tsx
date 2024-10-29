@@ -37,7 +37,7 @@ const AdminBrand = ():ReactNode =>{
             setData(response.result)
         } catch (exception: any) {
             //handle the exception
-            toast.error("Error Fetching the Banner")
+            toast.error("Error Fetching the Brand")
         } finally {
             setLoading(false)
         }
@@ -51,20 +51,20 @@ const AdminBrand = ():ReactNode =>{
     const deleteBrand = async (id: string) => {
         try {
             setLoading(true)
-            const response = await AxiosInstance.delete("/banner/" + id, {
+            const response = await AxiosInstance.delete("/brand/" + id, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("accessToken")
                 }
             })
             Swal.fire({
                 title: "Successfully Deleted!",
-                text: "Your Banner has been deleted.",
+                text: "Your Brand has been deleted.",
                 icon: "success"
             });
             getBrandList({ page: 1, limit: Per_Page_limit });
             console.log(response)
         } catch (exception) {
-            toast.error("Banner Couldnt be deleted at this moment");
+            toast.error("Brand Couldnt be deleted at this moment");
             console.log(exception)
         }
     }
@@ -75,7 +75,7 @@ const AdminBrand = ():ReactNode =>{
                     <h1 className="text-3xl font-bold">Brand List</h1>
                     <div></div>
                     <NavLink to="/admin/brand/create">
-                        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-3 text-center py-2 px-2">Create Banner</button>
+                        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-3 text-center py-2 px-2">Create Brand</button>
                     </NavLink>
 
                 </div>
@@ -100,7 +100,7 @@ const AdminBrand = ():ReactNode =>{
                                                 <tr className="odd:bg-gray-50" key={index}>
                                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{brand.title}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{brand.image}</td>
-                                                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">{brand.homeSection}</td>
+                                                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">{brand.homeSection ? "Yes" : "No"}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{brand.status}</td>
                                                     <td className="whitespace-nowrap px-4 py-2">
                                                         <ActionButton

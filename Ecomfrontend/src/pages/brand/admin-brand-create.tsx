@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { TextInputField, SelectOptionComponent } from "../../components/common/form"
 import { toast } from "react-toastify"
-import {  useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import AxiosInstance from "../../config/axios.config"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -9,11 +9,11 @@ import { useState } from "react"
 
 
 const AdminBrandCreate = () => {
-    let [loading, setLoading]= useState(false)
+    let [loading, setLoading] = useState(false)
     const navigate = useNavigate()
-    
+
     const createDTO = Yup.object({
-        title:Yup.string().min(3).required(),
+        title: Yup.string().min(2).required(),
         homeSection: Yup.bool().required(),
         status: Yup.object({
             label: Yup.string().matches(/^(Active|Inactive)$/),
@@ -43,7 +43,7 @@ const AdminBrandCreate = () => {
         } catch (exception: any) {
             console.log(exception)
             toast.error("Error Creating Brand at the moment")
-        }finally{
+        } finally {
             setLoading(false)
         }
     }
@@ -70,19 +70,25 @@ const AdminBrandCreate = () => {
 
                             <div className="col-span-6">
                                 <label htmlFor="Homesection" className=" block text-sm font-medium text-gray-700"> Homesection <span className="text-red-800">*</span></label>
-                                
+                                <select
+                                    onChange={(e) => setValue("homeSection", e.target.value === "true")}
+                                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                                >
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
                             </div>
 
                             <div className="col-span-6">
                                 <label htmlFor="status" className="block text-sm font-medium text-gray-700"> Status <span className="text-red-800">*</span></label>
 
-                                <SelectOptionComponent  
+                                <SelectOptionComponent
                                     options={[{ label: "Active", value: "active" }, { label: "Inactive", value: "inactive" }]}
                                     name="status"
                                     control={control}
                                     errMsg={errors?.status?.message as string}
                                 />
-                                
+
 
                             </div>
 
